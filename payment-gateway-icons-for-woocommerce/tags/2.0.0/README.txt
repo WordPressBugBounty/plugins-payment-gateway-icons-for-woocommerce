@@ -3,12 +3,12 @@ Contributors: nas9286
 Donate link: https://paypal.me/petruthit
 Tags: WooCommerce, payment-gateway, icons, custom icons
 Requires at least: 5.4
-Tested up to: 6.8
-Stable tag: 2.0.0
+Tested up to: 6.7.1
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Customize the payment gateway icons that appear on the WooCommerce checkout page.
+Customize the payment gateway icons that appear on the WooCommerce checkout page to anything you like or brand that suits your business. You can sizes for desktop and mobile view.
 
 == Description ==
 
@@ -54,9 +54,5 @@ Customize the payment gateway icons that appear on the WooCommerce checkout page
 
 = 1.2.3 =
 * Plugin tested successfully with WordPress 6.7.1
-* Minor bug fixes and spelling corrections
-
-= 2.0.0 =
-* Plugin tested successfully with WordPress 6.8
 * Minor bug fixes and spelling corrections
 
