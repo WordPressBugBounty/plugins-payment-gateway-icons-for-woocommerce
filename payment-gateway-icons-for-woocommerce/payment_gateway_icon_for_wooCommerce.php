@@ -1,57 +1,56 @@
 <?php
 
 /**
- * Plugin Name
- *
- * @package           Payment_Gateway_Icon_For_WooCommerce 
- * @author            Nastin Mfena
- * @copyright         2025 Petruth IT Solutions
- * @license           GPL-2.0-or-later
- *
- * @wordpress-plugin
- * Plugin Name:       Payment Gateway Icons For Woocommerce
+ * Plugin Name:       Payment Gateway Icons For WooCommerce
  * Plugin URI:        https://petruthit.com
- * Description:       Add or change the default payment gateway icons that appear on the WooCommerce checkout page to anything you like or brand that suits your business. You can sizes for desktop and mobile view.
- * Version:           2.0.0
+ * Description:       Add or change WooCommerce payment gateway icons globally (Stripe compatible).
+ * Version:           2.1.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
- * Author:            nas9286
+ * Author:            Nastin Mfena
  * Text Domain:       payment-gateway-icons-for-woocommerce
  * License:           GPL-2.0+
- * License URI:      http://www.gnu.org/licenses/gpl-2.0.txt
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if (!defined('WPINC')) {
     die;
 }
 
 /**
- * Currently plugin version.
- * Start at version 1.1.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
+ * Plugin version
  */
-define( 'PAYMENT_GATEWAY_ICON_FOR_WOOCOMMERCE_VERSION', '1.2.1' );
+define('PAYMENT_GATEWAY_ICON_FOR_WOOCOMMERCE_VERSION', '2.0.0');
 
 /**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
+ * Plugin paths (NEW)
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-payment-gateway-icon-for-woocommerce.php';
+define('FCPGIFW_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('FCPGIFW_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('FCPGIFW_OPTION', 'fcpgifw_icons');
 
 /**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
+ * Load core classes (NEW STRUCTURE)
+ */
+require_once FCPGIFW_PLUGIN_PATH . 'includes/class-icons.php';
+require_once FCPGIFW_PLUGIN_PATH . 'admin/class-admin.php';
+require_once FCPGIFW_PLUGIN_PATH . 'public/class-public.php';
+
+/**
+ * Initialize plugin
  */
 function run_payment_gateway_icon_for_woocommerce() {
 
-    $plugin = new Payment_Gateway_Icon_For_WooCommerce();
-    $plugin->run();
+    // Admin (settings UI)
+    if (is_admin()) {
+        new FCPGIFW_Admin();
+    }
 
+    // Frontend (icon override)
+    new FCPGIFW_Public();
 }
-run_payment_gateway_icon_for_woocommerce();
+
+/**
+ * Run after plugins loaded (IMPORTANT for WooCommerce)
+ */
+add_action('plugins_loaded', 'run_payment_gateway_icon_for_woocommerce');

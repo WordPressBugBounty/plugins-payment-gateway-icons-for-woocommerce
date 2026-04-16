@@ -1,96 +1,62 @@
 <?php
 
 /**
- * The public-facing functionality of the plugin.
- *
- * @link       http://petruthit.com
- * @since      1.0.0
- *
- * @package    Payment_Gateway_Icon_For_WooCommerce
- * @subpackage Payment_Gateway_Icon_For_WooCommerce/public
+ * Public-facing functionality (icon override)
  */
 
-/**
- * The public-facing functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- *
- * @package    Payment_Gateway_Icon_For_WooCommerce
- * @subpackage Payment_Gateway_Icon_For_WooCommerce/public
- * @author     Nastin Mfena <nastinmfena@gmail.com>
- */
-class Payment_Gateway_Icon_For_WooCommerce_Public {
+if (!defined('ABSPATH')) exit;
 
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $plugin_name;
+class FCPGIFW_Public {
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
-
-	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
-	 */
-	public function __construct( $plugin_name, $version ) {
-
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
-	}
-        
-    /**
-     * Change the icon.
-     * 
-     * Hooked on `woocommerce_gateway_icon` filter.
-     * 
-     * @since 1.0.0
-     * 
-     * @param string $icon  Payment gateway icon image.
-     * @param string $id    Payment gateway ID.
-     * @return string
-     */
-    public function modify_icon($icon = '', $id = '') {
-        if (!$id) {
-            return $icon;
-        }
-        
-        $payment_gateways = WC()->payment_gateways()->payment_gateways();
-        
-        if (!isset($payment_gateways[$id])) {
-            return $icon;
-        }
-        
-        /* @var $payment_gateway WC_Payment_Gateway */
-        $payment_gateway    = $payment_gateways[$id]; 
-        $custom_icon        = $payment_gateway->get_option('fcpgifw_icon');
-        $custom_icon_2x     = $payment_gateway->get_option('fcpgifw_icon_2x');
-        
-        if (!$custom_icon) {
-            return $icon;
-        }
-
-        $img_src = WC_HTTPS::force_https_url(esc_url($custom_icon));
-        $img_src_2x = $custom_icon_2x ? WC_HTTPS::force_https_url(esc_url($custom_icon_2x)) : '';
-        $img_alt = esc_attr($payment_gateway->get_title());
-        $img_srcset = $img_src_2x ? "srcset=\"$img_src, $img_src_2x 2x\"" : '';
-        
-        return "<img src=\"$img_src\" alt=\"$img_alt\" $img_srcset />";
+    public function __construct() {
+        add_filter('woocommerce_gateway_icon', [$this, 'modify_icon'], 20, 2);
     }
 
+    /**
+     * Override gateway icon globally
+     */
+    public function modify_icon($icon = '', $gateway_id = '') {
+
+        if (empty($gateway_id)) {
+            return $icon;
+        }
+
+        // Get all stored icons (single source of truth)
+        $icons = get_option(FCPGIFW_OPTION, []);
+
+        if (!is_array($icons) || empty($icons[$gateway_id])) {
+            return $icon;
+        }
+
+        $custom_icon = esc_url($icons[$gateway_id]);
+
+        // Optional retina support (if stored)
+        $custom_icon_2x = !empty($icons[$gateway_id . '_2x'])
+            ? esc_url($icons[$gateway_id . '_2x'])
+            : '';
+
+        // Get gateway title safely
+        $title = $gateway_id;
+
+        if (function_exists('WC') && WC()->payment_gateways()) {
+            $gateways = WC()->payment_gateways()->payment_gateways();
+
+            if (isset($gateways[$gateway_id])) {
+                $title = $gateways[$gateway_id]->get_title();
+            }
+        }
+
+        $img = '<img src="' . $custom_icon . '" alt="' . esc_attr($title) . '" style="max-height:24px;" />';
+
+        // Add retina support if available
+        if ($custom_icon_2x) {
+            $img = '<img 
+                src="' . $custom_icon . '" 
+                srcset="' . $custom_icon . ' 1x, ' . $custom_icon_2x . ' 2x"
+                alt="' . esc_attr($title) . '" 
+                style="max-height:24px;" />';
+        }
+
+        return $img;
+    }
 }

@@ -1,10 +1,10 @@
-=== Custom Payment Gateway Icons ===
+=== Payment Gateway Icons For WooCommerce ===
 Contributors: nas9286
 Donate link: https://paypal.me/petruthit
 Tags: WooCommerce, payment-gateway, icons, custom icons
-Requires at least: 5.4
+Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,33 +30,36 @@ Customize the payment gateway icons that appear on the WooCommerce checkout page
 
 == Changelog ==
 
-
-
-= 1.1.0 =
-* Clean up.
-
-= 1.1.0 =
-* First release.
-
-= 1.1.1 =
-* Second release
-* Minor bug fixes and corrections 
-
-= 1.2.0 =
-* Plugin tested successfully with WordPress 6.2
-
-= 1.2.1 =
-* Plugin tested successfully with WordPress 6.3
-
-= 1.2.2 =
-* Plugin tested successfully with WordPress 6.5
-* Minor bug fixes and corrections
+= 2.1.0 =
+* Major architectural refactor of the plugin
+* Replaced gateway-dependent settings system with centralized icon storage
+* Introduced global icon override using `woocommerce_gateway_icon` filter
+* Improved compatibility with all payment gateways including Stripe
+* Removed dynamic per-gateway form field injection system
+* Eliminated loader-based hook registry for simpler WordPress-native initialization
+* Improved code structure with separation of concerns (Admin / Public / Core)
+* Added support for retina (@2x) icon handling
+* Improved security with proper sanitization of icon URLs
+* Increased stability and compatibility with WooCommerce 8+ and WordPress 6.8
 
 = 1.2.3 =
 * Plugin tested successfully with WordPress 6.7.1
 * Minor bug fixes and spelling corrections
 
-= 2.0.0 =
-* Plugin tested successfully with WordPress 6.8
-* Minor bug fixes and spelling corrections
+= 1.2.2 =
+* Plugin tested successfully with WordPress 6.5
+* Minor bug fixes and corrections
+
+= 1.2.1 =
+* Plugin tested successfully with WordPress 6.3
+
+= 1.2.0 =
+* Plugin tested successfully with WordPress 6.2
+
+= 1.1.1 =
+* Minor bug fixes and corrections
+
+= 1.1.0 =
+* Initial stable release
+* Clean up of core functionality
 
