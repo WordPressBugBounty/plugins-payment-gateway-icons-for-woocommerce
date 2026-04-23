@@ -4,7 +4,7 @@ Donate link: https://paypal.me/petruthit
 Tags: WooCommerce, payment-gateway, icons, custom icons
 Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,14 @@ Customize the payment gateway icons that appear on the WooCommerce checkout page
 3. This is the plugin's settings view in WooCommerce
 
 == Changelog ==
+
+= 2.2.0 =
+* Added support for shipping method icons on Cart and Checkout pages.
+* Added a new "Shipping Methods" section in the admin panel to assign icons.
+* Refactored icon storage structure to support both payment and shipping icons.
+* Ensured backward compatibility with existing installations using the legacy icon format.
+* Improved sanitization and saving logic for icon URLs.
+* Fixed potential undefined index issues when retrieving icons.
 
 = 2.1.0 =
 * Major architectural refactor of the plugin

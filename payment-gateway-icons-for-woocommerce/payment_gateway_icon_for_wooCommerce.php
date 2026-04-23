@@ -4,7 +4,7 @@
  * Plugin Name:       Payment Gateway Icons For WooCommerce
  * Plugin URI:        https://petruthit.com
  * Description:       Add or change WooCommerce payment gateway icons globally (Stripe compatible).
- * Version:           2.1.0
+ * Version:           2.2.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Nastin Mfena
@@ -20,7 +20,7 @@ if (!defined('WPINC')) {
 /**
  * Plugin version
  */
-define('PAYMENT_GATEWAY_ICON_FOR_WOOCOMMERCE_VERSION', '2.0.0');
+define('PAYMENT_GATEWAY_ICON_FOR_WOOCOMMERCE_VERSION', '2.1.0');
 
 /**
  * Plugin paths (NEW)
