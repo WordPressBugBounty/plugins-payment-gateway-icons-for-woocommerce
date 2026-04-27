@@ -37,7 +37,7 @@ class FCPGIFW_Public {
         }
 
         return sprintf(
-            '<img src="%s" alt="%s" style="max-height:24px; width:auto;" />',
+            '<img src="%s" alt="%s" style="max-height:32px; width:auto;" />',
             esc_url($custom_icon),
             esc_attr($gateways[$gateway_id]->get_title())
         );
@@ -59,9 +59,9 @@ class FCPGIFW_Public {
         }
 
         $icon_html = sprintf(
-            '<img src="%s" class="fcpgifw-shipping-icon" alt="" />',
-            esc_url($icon)
-        );
+        '<img src="%s" class="fcpgifw-shipping-icon" alt="" style="max-height:32px; width:auto; display:inline-block; vertical-align:middle;" />',
+        esc_url($icon)
+    );
 
         return $icon_html . ' ' . $label;
     }

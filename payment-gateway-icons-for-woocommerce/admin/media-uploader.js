@@ -1,36 +1,44 @@
-jQuery(function ($) {
+jQuery(document).ready(function ($) {
 
-    let frame;
+    let mediaFrame;
 
     $(document).on('click', '.fcpgifw-upload-btn', function (e) {
         e.preventDefault();
 
-        const wrapper = $(this).closest('.fcpgifw-field');
-        const input = wrapper.find('.fcpgifw-icon-url');
-        const preview = wrapper.find('.fcpgifw-preview');
+        const button = $(this);
+        const input = button.closest('td').find('.fcpgifw-icon-url');
 
-        if (frame) {
-            frame.open();
+        // Open existing frame if already created
+        if (mediaFrame) {
+            mediaFrame.open();
+            mediaFrame.currentInput = input;
             return;
         }
 
-        frame = wp.media({
-            title: 'Select Payment Gateway Icon',
-            button: { text: 'Use this image' },
+        // Create frame
+        mediaFrame = wp.media({
+            title: 'Select Icon',
+            button: {
+                text: 'Use this image'
+            },
             multiple: false
         });
 
-        frame.on('select', function () {
-            const attachment = frame.state().get('selection').first().toJSON();
+        // Store target input safely
+        mediaFrame.on('select', function () {
 
-            input.val(attachment.url);
+            const attachment = mediaFrame.state()
+                .get('selection')
+                .first()
+                .toJSON();
 
-            preview.html(
-                '<img src="' + attachment.url + '" style="height:24px; margin-top:5px;" />'
-            );
+            if (mediaFrame.currentInput) {
+                mediaFrame.currentInput.val(attachment.url);
+            }
         });
 
-        frame.open();
+        mediaFrame.open();
+        mediaFrame.currentInput = input;
     });
 
 });
